@@ -7,9 +7,9 @@
     "build": "tsc",
     "serve": "node dist/index.js"
   },
-  "author": "",
+  "author": "Louis, Charles and Ezio",
   "license": "ISC",
-  "description": "",
+  "description": "A todo list api with user authentication",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
