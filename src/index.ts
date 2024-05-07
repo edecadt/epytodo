@@ -1,8 +1,9 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, {NextFunction, Request, Response} from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import "./configs/db"
 import {notFound} from "./middleware/notFound";
+import authRoute from "./routes/auth.route";
 
 dotenv.config();
 
@@ -10,6 +11,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+
+// Routes
+app.use('/', authRoute); // Auth routes
 
 app.use(notFound);
 
