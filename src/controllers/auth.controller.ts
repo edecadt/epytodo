@@ -18,7 +18,7 @@ export async function registerUser(req: Request, res: Response) {
 
     try {
         if (await createUser(email, name, firstname, hashedPassword)) {
-            const secret = process.env.SECRET || 'epytodo_secret';
+            const secret = process.env.SECRET || 'secret';
             const token = jwt.sign({ email }, secret, { expiresIn: '24h' });
 
             return res.status(201).json({ token: token });
@@ -41,7 +41,7 @@ export async function loginUser(req: Request, res: Response) {
 
     try {
         if (await checkUserPassword(email, password)) {
-            const secret = process.env.SECRET || 'epytodo_secret';
+            const secret = process.env.SECRET || 'secret';
             const token = jwt.sign({ email }, secret, { expiresIn: '24h' });
 
             return res.status(200).json({ token: token });
