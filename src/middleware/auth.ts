@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-export async function authenticateUserSession(req: Request, res: Response, next: NextFunction) {
+export const authenticateUserSession = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
@@ -17,4 +17,4 @@ export async function authenticateUserSession(req: Request, res: Response, next:
     } catch (error) {
         return res.status(403).json({ message: 'Token is not valid' });
     }
-}
+};

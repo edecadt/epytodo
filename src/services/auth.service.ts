@@ -2,7 +2,7 @@ import connection from '../configs/db';
 import { ResultSetHeader } from 'mysql2';
 import bcrypt from 'bcryptjs';
 
-export async function checkIfUserExist(email: string): Promise<boolean> {
+export const checkIfUserExist = async (email: string): Promise<boolean> => {
     try {
         const [rows] = await connection.execute<ResultSetHeader>('SELECT * FROM user WHERE email = ?', [email]);
 
@@ -14,9 +14,14 @@ export async function checkIfUserExist(email: string): Promise<boolean> {
     } catch (error) {
         throw error;
     }
-}
+};
 
-export async function createUser(email: string, name: string, firstname: string, password: string): Promise<boolean> {
+export const createUser = async (
+    email: string,
+    name: string,
+    firstname: string,
+    password: string,
+): Promise<boolean> => {
     try {
         const [result] = await connection.execute<ResultSetHeader>(
             'INSERT INTO user (email, name, firstname, password) VALUES (?, ?, ?, ?)',
@@ -27,9 +32,9 @@ export async function createUser(email: string, name: string, firstname: string,
     } catch (error) {
         throw error;
     }
-}
+};
 
-export async function checkUserPassword(email: string, password: string): Promise<boolean> {
+export const checkUserPassword = async (email: string, password: string): Promise<boolean> => {
     try {
         const [rows] = await connection.execute<ResultSetHeader>('SELECT password FROM user WHERE email = ?', [email]);
 
@@ -42,4 +47,4 @@ export async function checkUserPassword(email: string, password: string): Promis
     } catch (error) {
         throw error;
     }
-}
+};

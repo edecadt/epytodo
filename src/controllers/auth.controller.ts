@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { checkIfUserExist, checkUserPassword, createUser } from '../services/auth.service';
 
-export async function registerUser(req: Request, res: Response) {
+export const registerUser = async (req: Request, res: Response) => {
     const { email, name, firstname, password } = req.body;
 
     if (!email || !name || !firstname || !password) return res.status(400).json({ msg: 'Bad parameter' });
@@ -26,9 +26,9 @@ export async function registerUser(req: Request, res: Response) {
     } catch (error) {
         return res.status(500).json({ msg: 'Internal server error' });
     }
-}
+};
 
-export async function loginUser(req: Request, res: Response) {
+export const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     if (!email || !password) return res.status(400).json({ msg: 'Bad parameter' });
@@ -50,4 +50,4 @@ export async function loginUser(req: Request, res: Response) {
     } catch (error) {
         return res.status(500).json({ msg: 'Internal server error' });
     }
-}
+};
