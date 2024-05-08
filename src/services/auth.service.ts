@@ -21,14 +21,18 @@ export const createUser = async (
     name: string,
     firstname: string,
     password: string,
-): Promise<boolean> => {
+): Promise<number | null> => {
     try {
         const [result] = await connection.execute<ResultSetHeader>(
             'INSERT INTO user (email, name, firstname, password) VALUES (?, ?, ?, ?)',
             [email, name, firstname, password],
         );
 
-        return result && result.affectedRows === 1;
+        if (result && result.affectedRows === 1) {
+            return result.insertId;
+        } else {
+            return null;
+        }
     } catch (error) {
         throw error;
     }
