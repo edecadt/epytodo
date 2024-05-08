@@ -5,6 +5,7 @@ import './configs/db';
 import { notFound } from './middleware/notFound';
 import authRoute from './routes/auth.route';
 import { authenticateUserSession } from './middleware/auth';
+import userRoute from './routes/user.route';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/', authRoute); // Auth routes
+app.use('/user', userRoute); // User routes
 
 app.use(notFound);
 
@@ -22,7 +24,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/register') || req.path.startsWith('/login')) {
         next();
     } else {
-        authenticateUserSession(req, res, next);
+        authenticateUserSession(req, res, next).then(() => {
+            next();
+        });
     }
 });
 
