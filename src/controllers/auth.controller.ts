@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { checkIfUserExist, checkUserPassword, createUser } from '../services/auth.service';
+import { getUserInfosByEmail } from '../services/user.service';
 
 export const registerUser = async (req: Request, res: Response) => {
     const { email, name, firstname, password } = req.body;
@@ -17,11 +18,23 @@ export const registerUser = async (req: Request, res: Response) => {
     const hashedPassword = bcrypt.hashSync(password, 10);
 
     try {
-        if (await createUser(email, name, firstname, hashedPassword)) {
+        const userId = await createUser(email, name, firstname, hashedPassword);
+        if (userId != null) {
             const secret = process.env.SECRET || 'secret';
-            const token = jwt.sign({ email }, secret, { expiresIn: '24h' });
+            const token = jwt.sign(
+                {
+                    email: email,
+                    id: userId,
+                    name: name,
+                    firstname: firstname,
+                },
+                secret,
+                { expiresIn: '24h' },
+            );
 
             return res.status(201).json({ token: token });
+        } else {
+            return res.status(500).json({ msg: 'Internal server error' });
         }
     } catch (error) {
         return res.status(500).json({ msg: 'Internal server error' });
@@ -42,7 +55,17 @@ export const loginUser = async (req: Request, res: Response) => {
     try {
         if (await checkUserPassword(email, password)) {
             const secret = process.env.SECRET || 'secret';
-            const token = jwt.sign({ email }, secret, { expiresIn: '24h' });
+            const userInfos = await getUserInfosByEmail(email);
+            const token = jwt.sign(
+                {
+                    email: email,
+                    id: userInfos?.id,
+                    name: userInfos?.name,
+                    firstname: userInfos?.firstname,
+                },
+                secret,
+                { expiresIn: '24h' },
+            );
 
             return res.status(200).json({ token: token });
         }
