@@ -16,6 +16,10 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // Routes
+app.get('/', (req: Request, res: Response) => {
+    res.send('Hello World!');
+});
+
 app.use('/', authRoute); // Auth routes
 
 app.use((req: Request, res: Response, next: NextFunction) => {
