@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { checkIfUserExist, checkUserPassword, createUser } from '../services/auth.service';
-import { getUserInfosByEmail } from '../services/user.service';
+import { getUserInfosByEmail } from '../services/users.service';
 
 export const registerUser = async (req: Request, res: Response) => {
     const { email, name, firstname, password } = req.body;

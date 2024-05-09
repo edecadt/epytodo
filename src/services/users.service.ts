@@ -1,5 +1,5 @@
 import connection from '../configs/db';
-import { RowDataPacket } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
 export const getUserInfosById = async (userId: number): Promise<RowDataPacket | null> => {
     try {
@@ -32,6 +32,16 @@ export const getUserInfosByEmail = async (email: string): Promise<RowDataPacket 
         } else {
             return null;
         }
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const deleteUserById = async (userId: number): Promise<boolean> => {
+    try {
+        const [result] = await connection.execute<ResultSetHeader>('DELETE FROM user WHERE id = ?', [userId]);
+
+        return result.affectedRows === 1;
     } catch (error) {
         throw error;
     }

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getUserInfosByEmail, getUserInfosById } from '../services/user.service';
+import { deleteUserById as deleteUserByIdInDb, getUserInfosByEmail, getUserInfosById } from '../services/users.service';
 
 export const getUserInfoByIdOrEmail = async (req: Request, res: Response) => {
     const idOrEmail = req.params.idOrEmail;
@@ -35,4 +35,23 @@ export const getUserInfoByIdOrEmail = async (req: Request, res: Response) => {
             name: userInfos.name,
         });
     }
+};
+
+export const deleteUserById = async (req: Request, res: Response) => {
+    const userId = parseInt(req.params.id);
+
+    if (isNaN(userId)) {
+        return res.status(400).json({ msg: 'Bad parameter' });
+    }
+
+    const userInfos = await getUserInfosById(userId);
+
+    if (!userInfos) {
+        return res.status(404).json({ msg: 'Not found' });
+    }
+
+    if (!(await deleteUserByIdInDb(userId))) {
+        return res.status(500).json({ msg: 'Internal server error' });
+    }
+    return res.status(200).json({ msg: `Successfully deleted record number : ${userId}` });
 };
