@@ -46,3 +46,22 @@ export const deleteUserById = async (userId: number): Promise<boolean> => {
         throw error;
     }
 };
+
+export const updateUserById = async (
+    userId: number,
+    email: string,
+    name: string,
+    firstname: string,
+    password: string,
+): Promise<boolean> => {
+    try {
+        const [result] = await connection.execute<ResultSetHeader>(
+            'UPDATE user SET email = ?, name = ?, firstname = ?, password = ? WHERE id = ?',
+            [email, name, firstname, password, userId],
+        );
+
+        return result.affectedRows === 1;
+    } catch (error) {
+        throw error;
+    }
+};
