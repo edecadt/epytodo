@@ -10,7 +10,7 @@ const connection = promise_1.default.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
     database: process.env.MYSQL_DATABASE,
-    password: process.env.MYSQL_PASSWORD,
+    password: process.env.MYSQL_ROOT_PASSWORD,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
