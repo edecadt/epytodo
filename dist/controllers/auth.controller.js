@@ -26,7 +26,6 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             return res.status(400).json({ msg: 'Account already exists' });
     }
     catch (error) {
-        console.log("caca");
         return res.status(500).json({ msg: 'Internal server error' });
     }
     const hashedPassword = bcryptjs_1.default.hashSync(password, 10);
@@ -43,12 +42,10 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             return res.status(201).json({ token: token });
         }
         else {
-            console.log("caca1");
             return res.status(500).json({ msg: 'Internal server error' });
         }
     }
     catch (error) {
-        console.log("caca2");
         return res.status(500).json({ msg: 'Internal server error' });
     }
 });
