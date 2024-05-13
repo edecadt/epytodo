@@ -53,6 +53,5 @@ export const getUserTodos = async (req: Request, res: Response) => {
         return res.status(500).json({ msg: 'Internal server error' });
     }
 
-    res.status(200).json(userTodos
-    );
+    res.status(200).json(userTodos);
 };
