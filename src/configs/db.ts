@@ -28,4 +28,5 @@ async function checkConnection() {
   }
 
 checkConnection();
+
 export default connection;
