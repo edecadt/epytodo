@@ -12,6 +12,7 @@ export const registerUser = async (req: Request, res: Response) => {
     try {
         if (await checkIfUserExist(email)) return res.status(400).json({ msg: 'Account already exists' });
     } catch (error) {
+        console.log("caca");
         return res.status(500).json({ msg: 'Internal server error' });
     }
 
@@ -34,9 +35,11 @@ export const registerUser = async (req: Request, res: Response) => {
 
             return res.status(201).json({ token: token });
         } else {
+            console.log("caca1");
             return res.status(500).json({ msg: 'Internal server error' });
         }
     } catch (error) {
+        console.log("caca2");
         return res.status(500).json({ msg: 'Internal server error' });
     }
 };
