@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserInfos = void 0;
+exports.getUserTodos = exports.getUserInfos = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const users_service_1 = require("../services/users.service");
+const todos_service_1 = require("../services/todos.service");
 const getUserInfos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const tokenHeader = req.headers.authorization;
     if (!tokenHeader) {
@@ -39,3 +40,20 @@ const getUserInfos = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     });
 });
 exports.getUserInfos = getUserInfos;
+const getUserTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const tokenHeader = req.headers.authorization;
+    if (!tokenHeader) {
+        return res.status(401).json({ msg: 'No token, authorization denied' });
+    }
+    const token = tokenHeader.split(' ')[1];
+    const decoded = jsonwebtoken_1.default.decode(token);
+    if (!decoded) {
+        return res.status(401).json({ msg: 'Invalid token format' });
+    }
+    const userTodos = yield (0, todos_service_1.getUserTodosById)(decoded.id);
+    if (!userTodos) {
+        return res.status(500).json({ msg: 'Internal server error' });
+    }
+    res.status(200).json(userTodos);
+});
+exports.getUserTodos = getUserTodos;

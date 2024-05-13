@@ -7,6 +7,7 @@ import authRoute from './routes/auth.route';
 import { authenticateUserSession } from './middleware/auth';
 import userRoute from './routes/user.route';
 import usersRoute from './routes/users.route';
+import todosRoute from './routes/todos.route';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/user', userRoute); // User routes
 app.use('/users', usersRoute); // Users routes
+app.use('/todos', todosRoute); // Todos routes
 
 app.use(notFound);
 

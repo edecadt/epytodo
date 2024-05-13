@@ -12,6 +12,7 @@ const auth_route_1 = __importDefault(require("./routes/auth.route"));
 const auth_1 = require("./middleware/auth");
 const user_route_1 = __importDefault(require("./routes/user.route"));
 const users_route_1 = __importDefault(require("./routes/users.route"));
+const todos_route_1 = __importDefault(require("./routes/todos.route"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 });
 app.use('/user', user_route_1.default); // User routes
 app.use('/users', users_route_1.default); // Users routes
+app.use('/todos', todos_route_1.default); // Todos routes
 app.use(notFound_1.notFound);
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { getUserInfosById } from '../services/users.service';
+import { getUserTodosById } from '../services/todos.service';
 
 export const getUserInfos = async (req: Request, res: Response) => {
     const tokenHeader = req.headers.authorization;
@@ -30,4 +31,27 @@ export const getUserInfos = async (req: Request, res: Response) => {
         firstname: userInfo.firstname,
         name: userInfo.name,
     });
+};
+
+export const getUserTodos = async (req: Request, res: Response) => {
+    const tokenHeader = req.headers.authorization;
+    if (!tokenHeader) {
+        return res.status(401).json({ msg: 'No token, authorization denied' });
+    }
+
+    const token: string = tokenHeader.split(' ')[1];
+
+    const decoded = jwt.decode(token) as { id: number };
+
+    if (!decoded) {
+        return res.status(401).json({ msg: 'Invalid token format' });
+    }
+
+    const userTodos = await getUserTodosById(decoded.id);
+
+    if (!userTodos) {
+        return res.status(500).json({ msg: 'Internal server error' });
+    }
+
+    res.status(200).json(userTodos);
 };
