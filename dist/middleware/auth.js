@@ -23,12 +23,12 @@ const authenticateUserSession = (req, res, next) => __awaiter(void 0, void 0, vo
     try {
         const decoded = jsonwebtoken_1.default.verify(token, secret);
         if (!decoded.email) {
-            return res.status(403).json({ msg: 'Token is not valid' });
+            return res.status(401).json({ msg: 'Token is not valid' });
         }
         next();
     }
     catch (error) {
-        return res.status(403).json({ msg: 'Token is not valid' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
 });
 exports.authenticateUserSession = authenticateUserSession;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getAllTodos, getIdTodos, createTodo, updateTodoById, deleteTodosById } from '../services/todos.service';
+import { createTodo, deleteTodosById, getAllTodos, getIdTodos, updateTodoById } from '../services/todos.service';
 import jwt from 'jsonwebtoken';
 import { getUserInfosById } from '../services/users.service';
 
@@ -13,7 +13,7 @@ export const getAllUsersTodos = async (req: Request, res: Response) => {
     const decoded = jwt.decode(token) as { id: number };
 
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
 
     const allTodos = await getAllTodos();
@@ -36,7 +36,7 @@ export const getTodosById = async (req: Request, res: Response) => {
     const decoded = jwt.decode(token) as { id: number };
 
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
     const TodoId = parseInt(req.params.id);
 
@@ -63,19 +63,17 @@ export const postTodos = async (req: Request, res: Response) => {
     const decoded = jwt.decode(token) as { id: number };
 
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
 
     const { title, description, due_time, user_id, status } = req.body;
 
-    if (!title || !description || !due_time || !user_id)
+    if (!title || !description || !due_time || !user_id || !status)
         return res.status(400).json({ msg: 'Bad parameter' });
 
     const user_exist = await getUserInfosById(parseInt(user_id));
 
-    if (!user_exist)
-        return res.status(400).json({ msg: 'Bad parameter' });
-
+    if (!user_exist) return res.status(400).json({ msg: 'Bad parameter' });
 
     try {
         const newTodo = await createTodo(title, description, due_time, user_id, status);
@@ -85,7 +83,7 @@ export const postTodos = async (req: Request, res: Response) => {
             return res.status(500).json({ msg: 'Internal server error' });
         }
     } catch (error) {
-            return res.status(500).json({ msg: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error' });
     }
 };
 
@@ -100,7 +98,7 @@ export const putTodos = async (req: Request, res: Response) => {
     const decoded = jwt.decode(token) as { id: number };
 
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
 
     const TodoId = parseInt(req.params.id);
@@ -123,8 +121,7 @@ export const putTodos = async (req: Request, res: Response) => {
 
     const user_exist = await getUserInfosById(parseInt(user_id));
 
-    if (!user_exist)
-        return res.status(400).json({ msg: 'Bad parameter' });
+    if (!user_exist) return res.status(400).json({ msg: 'Bad parameter' });
 
     if (!(await updateTodoById(TodoId, title, description, due_time, user_id, status))) {
         return res.status(500).json({ msg: 'Internal server error' });
@@ -132,7 +129,7 @@ export const putTodos = async (req: Request, res: Response) => {
 
     const TodoInfosUpdated = await getIdTodos(TodoId);
 
-    if(!TodoInfosUpdated) {
+    if (!TodoInfosUpdated) {
         return res.status(500).json({ msg: 'Internal server error' });
     }
 
@@ -156,7 +153,7 @@ export const deleteTodos = async (req: Request, res: Response) => {
     const decoded = jwt.decode(token) as { id: number };
 
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
 
     const TodoId = parseInt(req.params.id);

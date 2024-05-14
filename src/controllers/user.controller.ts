@@ -14,7 +14,7 @@ export const getUserInfos = async (req: Request, res: Response) => {
     const decoded = jwt.decode(token) as { id: number };
 
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
 
     const userInfo = await getUserInfosById(decoded.id);
@@ -44,7 +44,7 @@ export const getUserTodos = async (req: Request, res: Response) => {
     const decoded = jwt.decode(token) as { id: number };
 
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
 
     const userTodos = await getUserTodosById(decoded.id);

@@ -24,7 +24,7 @@ const getUserInfos = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const token = tokenHeader.split(' ')[1];
     const decoded = jsonwebtoken_1.default.decode(token);
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
     const userInfo = yield (0, users_service_1.getUserInfosById)(decoded.id);
     if (!userInfo) {
@@ -48,7 +48,7 @@ const getUserTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const token = tokenHeader.split(' ')[1];
     const decoded = jsonwebtoken_1.default.decode(token);
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
     const userTodos = yield (0, todos_service_1.getUserTodosById)(decoded.id);
     if (!userTodos) {

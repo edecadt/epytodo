@@ -24,7 +24,7 @@ const getAllUsersTodos = (req, res) => __awaiter(void 0, void 0, void 0, functio
     const token = tokenHeader.split(' ')[1];
     const decoded = jsonwebtoken_1.default.decode(token);
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
     const allTodos = yield (0, todos_service_1.getAllTodos)();
     if (!allTodos) {
@@ -41,7 +41,7 @@ const getTodosById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const token = tokenHeader.split(' ')[1];
     const decoded = jsonwebtoken_1.default.decode(token);
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
     const TodoId = parseInt(req.params.id);
     if (isNaN(TodoId)) {
@@ -62,10 +62,10 @@ const postTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = tokenHeader.split(' ')[1];
     const decoded = jsonwebtoken_1.default.decode(token);
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
     const { title, description, due_time, user_id, status } = req.body;
-    if (!title || !description || !due_time || !user_id)
+    if (!title || !description || !due_time || !user_id || !status)
         return res.status(400).json({ msg: 'Bad parameter' });
     const user_exist = yield (0, users_service_1.getUserInfosById)(parseInt(user_id));
     if (!user_exist)
@@ -92,7 +92,7 @@ const putTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = tokenHeader.split(' ')[1];
     const decoded = jsonwebtoken_1.default.decode(token);
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
     const TodoId = parseInt(req.params.id);
     if (isNaN(TodoId)) {
@@ -133,7 +133,7 @@ const deleteTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const token = tokenHeader.split(' ')[1];
     const decoded = jsonwebtoken_1.default.decode(token);
     if (!decoded) {
-        return res.status(401).json({ msg: 'Invalid token format' });
+        return res.status(401).json({ msg: 'Token is not valid' });
     }
     const TodoId = parseInt(req.params.id);
     if (isNaN(TodoId)) {
