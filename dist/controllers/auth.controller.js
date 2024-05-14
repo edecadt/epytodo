@@ -42,6 +42,37 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             return res.status(201).json({ token: token });
         }
         else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             return res.status(500).json({ msg: 'Internal server error' });
         }
     }
