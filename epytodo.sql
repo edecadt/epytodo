@@ -18,5 +18,5 @@ CREATE TABLE IF NOT EXISTS `todo` (
     `due_time` DATETIME NOT NULL,
     `status` ENUM('not started', 'todo', 'in progress', 'done') DEFAULT 'not started',
     `user_id` INT NOT NULL,
-    FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
+    FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
 );
