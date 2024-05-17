@@ -6,6 +6,7 @@ import {
     updateUserById as updateUserByIdInDb,
 } from '../services/users.service';
 import bcrypt from 'bcryptjs';
+import { formatDate } from '../utils/formatDate';
 
 export const getUserInfoByIdOrEmail = async (req: Request, res: Response) => {
     const idOrEmail = req.params.idOrEmail;
@@ -22,7 +23,7 @@ export const getUserInfoByIdOrEmail = async (req: Request, res: Response) => {
             id: userInfos.id,
             email: userInfos.email,
             password: userInfos.password,
-            created_at: userInfos.created_at,
+            created_at: formatDate(userInfos.created_at),
             firstname: userInfos.firstname,
             name: userInfos.name,
         });
@@ -36,7 +37,7 @@ export const getUserInfoByIdOrEmail = async (req: Request, res: Response) => {
             id: userInfos.id,
             email: userInfos.email,
             password: userInfos.password,
-            created_at: userInfos.created_at,
+            created_at: formatDate(userInfos.created_at),
             firstname: userInfos.firstname,
             name: userInfos.name,
         });
@@ -93,7 +94,7 @@ export const updateUserById = async (req: Request, res: Response) => {
         id: userInfosUpdated?.id,
         email: userInfosUpdated?.email,
         password: userInfosUpdated?.password,
-        created_at: userInfosUpdated?.created_at,
+        created_at: formatDate(userInfosUpdated?.created_at),
         firstname: userInfosUpdated?.firstname,
         name: userInfosUpdated?.name,
     });

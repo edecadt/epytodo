@@ -16,6 +16,7 @@ exports.getUserTodos = exports.getUserInfos = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const users_service_1 = require("../services/users.service");
 const todos_service_1 = require("../services/todos.service");
+const formatDate_1 = require("../utils/formatDate");
 const getUserInfos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const tokenHeader = req.headers.authorization;
     if (!tokenHeader) {
@@ -34,7 +35,7 @@ const getUserInfos = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         id: userInfo.id,
         email: userInfo.email,
         password: userInfo.password,
-        created_at: userInfo.created_at,
+        created_at: (0, formatDate_1.formatDate)(userInfo.created_at),
         firstname: userInfo.firstname,
         name: userInfo.name,
     });

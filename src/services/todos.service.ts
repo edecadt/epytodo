@@ -4,7 +4,7 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2';
 export const getUserTodosById = async (userId: number): Promise<RowDataPacket | null> => {
     try {
         const [rows] = await connection.execute(
-            'SELECT id, title, description, created_at, due_time, user_id, status FROM todo WHERE user_id = ?',
+            "SELECT id, title, description, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as created_at, DATE_FORMAT(due_time, '%Y-%m-%d %H:%i:%s') as due_time, user_id, status FROM todo WHERE user_id = ?",
             [userId],
         );
 
@@ -17,7 +17,7 @@ export const getUserTodosById = async (userId: number): Promise<RowDataPacket | 
 export const getAllTodos = async (): Promise<RowDataPacket | null> => {
     try {
         const [rows] = await connection.execute(
-            'SELECT id, title, description, created_at, due_time, user_id, status FROM todo',
+            "SELECT id, title, description, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as created_at, DATE_FORMAT(due_time, '%Y-%m-%d %H:%i:%s') as due_time, user_id, status FROM todo",
         );
 
         return rows as RowDataPacket;
@@ -29,8 +29,8 @@ export const getAllTodos = async (): Promise<RowDataPacket | null> => {
 export const getIdTodos = async (TodoId: number): Promise<RowDataPacket | null> => {
     try {
         const [rows] = await connection.execute(
-            'SELECT id, title, description, created_at, due_time, user_id, status FROM todo WHERE id = ?',
-            [TodoId]
+            "SELECT id, title, description, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as created_at, DATE_FORMAT(due_time, '%Y-%m-%d %H:%i:%s') as due_time, user_id, status FROM todo WHERE id = ?",
+            [TodoId],
         );
         if (Array.isArray(rows)) {
             if (rows.length === 1) {
@@ -56,7 +56,7 @@ export const createTodo = async (
     try {
         const [result] = await connection.execute<ResultSetHeader>(
             'INSERT INTO todo (title, description, due_time, user_id, status) VALUES (?, ?, ?, ?, ?)',
-            [ title, description, due_time, user_id, status],
+            [title, description, due_time, user_id, status],
         );
 
         if (result && result.affectedRows === 1) {

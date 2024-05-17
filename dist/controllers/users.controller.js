@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUserById = exports.deleteUserById = exports.getUserInfoByIdOrEmail = void 0;
 const users_service_1 = require("../services/users.service");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const formatDate_1 = require("../utils/formatDate");
 const getUserInfoByIdOrEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const idOrEmail = req.params.idOrEmail;
     const isId = !isNaN(parseInt(idOrEmail));
@@ -27,7 +28,7 @@ const getUserInfoByIdOrEmail = (req, res) => __awaiter(void 0, void 0, void 0, f
             id: userInfos.id,
             email: userInfos.email,
             password: userInfos.password,
-            created_at: userInfos.created_at,
+            created_at: (0, formatDate_1.formatDate)(userInfos.created_at),
             firstname: userInfos.firstname,
             name: userInfos.name,
         });
@@ -41,7 +42,7 @@ const getUserInfoByIdOrEmail = (req, res) => __awaiter(void 0, void 0, void 0, f
             id: userInfos.id,
             email: userInfos.email,
             password: userInfos.password,
-            created_at: userInfos.created_at,
+            created_at: (0, formatDate_1.formatDate)(userInfos.created_at),
             firstname: userInfos.firstname,
             name: userInfos.name,
         });
@@ -85,7 +86,7 @@ const updateUserById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         id: userInfosUpdated === null || userInfosUpdated === void 0 ? void 0 : userInfosUpdated.id,
         email: userInfosUpdated === null || userInfosUpdated === void 0 ? void 0 : userInfosUpdated.email,
         password: userInfosUpdated === null || userInfosUpdated === void 0 ? void 0 : userInfosUpdated.password,
-        created_at: userInfosUpdated === null || userInfosUpdated === void 0 ? void 0 : userInfosUpdated.created_at,
+        created_at: (0, formatDate_1.formatDate)(userInfosUpdated === null || userInfosUpdated === void 0 ? void 0 : userInfosUpdated.created_at),
         firstname: userInfosUpdated === null || userInfosUpdated === void 0 ? void 0 : userInfosUpdated.firstname,
         name: userInfosUpdated === null || userInfosUpdated === void 0 ? void 0 : userInfosUpdated.name,
     });

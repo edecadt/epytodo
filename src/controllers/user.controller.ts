@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { getUserInfosById } from '../services/users.service';
 import { getUserTodosById } from '../services/todos.service';
+import { formatDate } from '../utils/formatDate';
 
 export const getUserInfos = async (req: Request, res: Response) => {
     const tokenHeader = req.headers.authorization;
@@ -27,7 +28,7 @@ export const getUserInfos = async (req: Request, res: Response) => {
         id: userInfo.id,
         email: userInfo.email,
         password: userInfo.password,
-        created_at: userInfo.created_at,
+        created_at: formatDate(userInfo.created_at),
         firstname: userInfo.firstname,
         name: userInfo.name,
     });

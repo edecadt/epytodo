@@ -16,7 +16,7 @@ exports.deleteTodosById = exports.updateTodoById = exports.createTodo = exports.
 const db_1 = __importDefault(require("../configs/db"));
 const getUserTodosById = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const [rows] = yield db_1.default.execute('SELECT id, title, description, created_at, due_time, user_id, status FROM todo WHERE user_id = ?', [userId]);
+        const [rows] = yield db_1.default.execute("SELECT id, title, description, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as created_at, DATE_FORMAT(due_time, '%Y-%m-%d %H:%i:%s') as due_time, user_id, status FROM todo WHERE user_id = ?", [userId]);
         return rows;
     }
     catch (error) {
@@ -26,7 +26,7 @@ const getUserTodosById = (userId) => __awaiter(void 0, void 0, void 0, function*
 exports.getUserTodosById = getUserTodosById;
 const getAllTodos = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const [rows] = yield db_1.default.execute('SELECT id, title, description, created_at, due_time, user_id, status FROM todo');
+        const [rows] = yield db_1.default.execute("SELECT id, title, description, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as created_at, DATE_FORMAT(due_time, '%Y-%m-%d %H:%i:%s') as due_time, user_id, status FROM todo");
         return rows;
     }
     catch (error) {
@@ -36,7 +36,7 @@ const getAllTodos = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.getAllTodos = getAllTodos;
 const getIdTodos = (TodoId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const [rows] = yield db_1.default.execute('SELECT id, title, description, created_at, due_time, user_id, status FROM todo WHERE id = ?', [TodoId]);
+        const [rows] = yield db_1.default.execute("SELECT id, title, description, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') as created_at, DATE_FORMAT(due_time, '%Y-%m-%d %H:%i:%s') as due_time, user_id, status FROM todo WHERE id = ?", [TodoId]);
         if (Array.isArray(rows)) {
             if (rows.length === 1) {
                 return rows[0];
